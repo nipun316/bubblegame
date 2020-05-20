@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<style type="text/css">
+		
+		canvas{
+			border: 2px solid black;
+			background-color: black;
+		}
+		button{
+			border:4px solid blue;
+			color: black;
+			background: red;
+			width: 100px;
+			height: 30px;
+		}
+		body{
+			background: grey;
+		}
+	</style>
+	<canvas id="gameCanvas" width="480" height="270" style="border:2px solid gold" ></canvas>
+		<script type="text/javascript">
+var c=0
+	function myCounter() {
+   document.getElementById("text").innerHTML= ++c;
+}
+setInterval(myCounter,1000);
+
+		var color=["indigo","green","red","gold","pink","grey","violet","purple","light-blue","brown"];
+		var a;
+		mousex=0
+		mousey=0;
+		window.addEventListener("mousedown",function(){
+			mousex=event.clientX;
+			mousey=event.clientY;
+		})
+		
+
+		canvas=document.getElementById('gameCanvas');
+		context=canvas.getContext("2d");
+
+
+
+
+
+
+
+
+
+		 function giveacolor(){
+		 	a=Math.floor(Math.random()*10);
+		 	return color[a];
+
+		 }
+		 function radius(){
+		var minrad =15;
+		var maxrad =30;
+		let rad=Math.floor(Math.random()*(maxrad-minrad)+ minrad);
+		return rad;
+		
+		 }
+
+		
+		class Bubble{
+			constructor(x,y,paint,radius,speed){
+			
+			this.radius =radius;
+			this.paint=paint;
+			this.x=x;
+			this.y=y;
+			this.speed=speed;
+			this.dx =this.speed*1;
+			this.dy=this.speed*1;
+		}
+			draw()
+			{
+				
+				context.beginPath();
+				context.arc(this.x,this.y,this.radius,0,2*Math.PI);
+				context.fillStyle=this.paint;
+				context.fill();
+
+
+
+			}
+
+			move(){
+
+			    
+				this.draw();
+				if((this.x+this.radius)>480){this.dx=-this.dx;}
+				if((this.x-this.radius)<0){this.dx=-this.dx;}
+				if((this.y-this.radius)<0){this.dy=-this.dy;}
+				if((this.y+this.radius)>270){this.dy=-this.dy;}
+				this.x+=this.dx;
+				this.y+=this.dy;
+				
+
+
+			}
+
+			popper(){
+				 
+
+			   if(mousex>this.x -this.radius && mousex<this.x+this.radius && mousey>this.y-this.radius && mousey<this.y+this.radius){
+			   	this.radius=0;  
+ 		   }
+ 		   
+ 		  
+ 		   
+			
+}
+}
+var bubbles=[];
+var duration=1000;
+
+function clear(){
+	          	 
+
+				context.clearRect(0,0,480,270);
+				
+						
+ }
+setInterval(newobj,duration);
+
+
+		
+
+function newobj(){
+
+    
+				
+	            bubbles.push(new Bubble(Math.floor(Math.random()*420),Math.floor(Math.random()*210),giveacolor(),radius(),speed()));
+	            pop();
+
+				
+
+}
+function redirect(){
+	location.replace("bubble3.html")
+}
+function speed(){
+	return (Math.random()*2+-1)
+}
+var nipun=0;		
+
+function pop(){
+	for(var e=0;e<bubbles.length;e++)
+	{
+		bubbles[e].popper()
+		if(bubbles[e].radius!=0){
+			nipun+=1;
+			if(nipun==40){
+				redirect();
+			}
+		}
+		
+	}
+	nipun=0;
+	
+	if(bubbles.length==50)
+	{
+		duration=500;
+
+	}
+	if(bubbles.length==100)
+	{
+		duration=100;
+	}
+	if(bubbles.length==150)
+	{
+		duration=20;
+	}
+}
+
+
+
+
+
+
+
+ let update=function()
+ {
+ 	for(var i=0;i<bubbles.length;i++){
+
+ 		bubbles[i].move();
+
+ 	}
+
+ setInterval(clear,60);
+ requestAnimationFrame(update);
+}
+update();
+
+
+function info(){
+	alert("your game has been paused");
+
+}
+
+ 
+ 
+ 
+</script>
+
+</head>
+<body >
+
+<p><h1>TIME SURVIVED:<h1></p>
+<p id="text" ></p>
+<button onclick="info()">PAUSE</button>
+
+</body >
+
+</html>
